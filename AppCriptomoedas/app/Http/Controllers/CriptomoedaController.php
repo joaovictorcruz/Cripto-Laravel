@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 class CriptomoedaController extends Controller
 {
     // link ou endereço da API
-    private $urlApi = 'http://127.0.0.1:8001/api/cripto/';
+    private $urlApi = 'http://127.0.0.1:8001/api/cripto';
 
     public function index() {
         $response = Http::get($this->urlApi);
@@ -22,5 +22,25 @@ class CriptomoedaController extends Controller
 
     public function create() {
         return view('criptomoeda.create');
+    }
+
+    public function edit($id)
+    {
+        $response = Http::get("$this->urlApi/$id");
+        $cripto = $response->json()['data'] ?? null;
+        return view('criptomoeda.edit', compact('cripto'));
+
+    }
+
+    public function update(Request $request, $id)
+    {
+        Http::put("$this->urlApi/$id", $request->only('sigla','nome','valor'));
+        return redirect()->route('criptomoedas.index');
+    }
+
+    public function destroy($id)
+    {
+        Http::delete("$this->urlApi/$id");
+        return redirect()->route('criptomoedas.index');
     }
 }

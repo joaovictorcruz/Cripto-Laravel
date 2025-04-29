@@ -1,10 +1,9 @@
-@extends('./layout/app')
+@extends('layouts.app')
 
 @section('content')
     <h1>Editar Criptomoeda</h1>
     <form method="POST" action="{{ route('criptomoedas.update', $cripto['id']) }}">
         @csrf
-        @method('PUT')
         <div class="mb-3">
             <label>Sigla</label>
             <input type="text" name="sigla" class="form-control" value="{{ $cripto['sigla'] }}" required>
